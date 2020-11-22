@@ -1,0 +1,62 @@
+{% extends 'warehouse/main.html' %}
+
+{% block title %}
+    Edit product
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+            </div>
+            <div class="col-sm">
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <div class="alert alert-primary" style="text-align: center" role="alert">
+                        Product name
+                    </div>
+                    <div class="input-group mb-3">
+                        {{ form.title }}
+                    </div>
+
+                    <div class="alert alert-primary" style="text-align: center" role="alert">
+                        Category
+                    </div>
+                    <div class="input-group mb-3">
+                        {{ form.category }}
+                    </div>
+
+                    <div class="alert alert-primary" style="text-align: center" role="alert">
+                        Description
+                    </div>
+                    <div class="input-group mb-3">
+                        {{ form.description }}
+                    </div>
+
+                    <div class="alert alert-primary" style="text-align: center" role="alert">
+                        Price
+                    </div>
+                    <div class="input-group mb-3">
+                        {{ form.price }}
+                    </div>
+
+                    <div class="alert alert-primary" style="text-align: center" role="alert">
+                        Quantity on stock
+                    </div>
+                    <div class="input-group mb-3">
+                        {{ form.quantity_on_stock }}
+                    </div>
+
+                    <button type="submit" class="btn btn-success btn-lg btn-block">Save changes</button>
+                </form>
+
+            </div>
+            <div class="col-sm">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

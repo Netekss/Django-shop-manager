@@ -1,0 +1,181 @@
+{% extends 'warehouse/main.html' %}
+
+{% block title %}
+    Warehouse
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <div class="row">
+
+        <!-- product menu -->
+        <div class="col-sm">
+          <div class="alert alert-primary" style="text-align:center" role="alert">
+            Products
+              <div style="font-size: 10px">
+              Products menu
+              </div>
+          </div>
+
+          <button type="submit" class="btn btn-success btn-lg btn-block">
+              <a href="{% url 'create_product' %}" class="text-white">Create new product</a>
+          </button>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block">
+              <a href="{% url 'search_product' %}" class="text-white">Search product</a>
+          </button>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block">
+              <a href="{% url 'display_products' %}" class="text-white">Display products</a>
+          </button>
+
+        <!-- low quantity alert -->
+        <div style="margin-top: 10%">
+        {% if low_quantity %}
+            <div class="alert alert-danger" style="text-align:center; margin-bottom: 0.5rem" role="alert">
+              You have products witch quantity is lower than 5:
+            </div>
+
+            {% for product in low_quantity %}
+                <button type="button" class="btn btn-danger btn-lg btn-block">
+                    <a href="{% url 'edit_product' product.id %}" class="text-white">{{product}}</a>
+                </button>
+            {% endfor %}
+
+            <!-- pagination -->
+            <div class="d-flex justify-content-center" style="margin-top:3%">
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination">
+
+                      <!-- previous page -->
+                      {% if low_quantity.has_previous %}
+                        <li class="page-item">
+                          <a class="page-link" href="?page={{ low_quantity.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                          </a>
+                        </li>
+                      {% endif %}
+                      <!-- previous page end -->
+
+                      <!-- current page and pages -->
+                      {% for i in low_quantity.paginator.page_range %}
+                        {% if low_quantity.number == i %}
+                            <li class="page-item active" aria-current="page">
+                                <span class="page-link">
+                                    {{ i }}
+                                </span>
+                            </li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                      {% endfor %}
+                      <!-- current page and pages end -->
+
+                      <!-- next page -->
+                      {% if low_quantity.has_next %}
+                        <li class="page-item">
+                          <a class="page-link" href="?page={{ low_quantity.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                          </a>
+                        </li>
+                      {% endif %}
+                      <!-- next page end-->
+                  </ul>
+                </nav>
+            </div>
+            <!-- pagination end -->
+
+        {% endif %}
+        <!-- low quantity alert end -->
+        </div>
+    </div>
+        <!-- product menu end -->
+
+        <!-- orders to be completed -->
+        <div class="col-sm">
+            <div class="alert alert-warning" style="text-align:center" role="alert">
+              Orders
+                <div style="font-size: 10px">
+                    Orders to be completed
+                </div>
+            </div>
+
+            {% if orders|length > 4 %}
+                {% for order in orders|slice:":4" %}
+                    <button type="button" class="btn btn-warning btn-lg btn-block">
+                        <a href="{% url 'display_order' order.id %}" class="text-white">{{ order }}</a>
+                    </button>
+                {% endfor %}
+                <button type="button" class="btn btn-primary btn-lg btn-block">
+                    <a href="#" class="text-white">See more</a>
+                </button>
+            {% else %}
+                {% for order in orders %}
+                    <button type="button" class="btn btn-warning btn-lg btn-block">
+                        <a href="{% url 'display_order' order.id %}" class="text-white">{{ order }}</a>
+                    </button>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <!-- orders to be completed end -->
+
+        <!-- messages and categories -->
+        <div class="col-sm">
+        {% if messages %}
+                <div class="alert alert-dark" style="text-align: center" role="alert">
+                    Messages
+                </div>
+                {% for message in messages %}
+                    {% if 'success' in message.tags %}
+                    <div class="alert alert-success" style="text-align: center" role="alert">
+                      {{ message }}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-danger" style="text-align: center" role="alert">
+                      {{ message }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="alert alert-primary" style="text-align: center" role="alert">
+                    Categories
+                    <div style="font-size: 10px">
+                        Category menu
+                    </div>
+                </div>
+                <button type="button" class="btn btn-success btn-lg btn-block">
+                    <a href="{% url 'create_category' %}" class="text-white">Create new category</a>
+                </button>
+
+                <button type="button" class="btn btn-success btn-lg btn-block">
+                    <a href="{% url 'search_category' %}" class="text-white">Search category</a>
+                </button>
+
+                <button type="button" class="btn btn-primary btn-lg btn-block">
+                    <a href="{% url 'display_categories' %}" class="text-white">Display categories</a>
+                </button>
+        {% else %}
+                <div class="alert alert-primary" style="text-align: center" role="alert">
+                    Categories
+                    <div style="font-size: 10px">
+                        Category menu
+                    </div>
+                </div>
+                <button type="button" class="btn btn-success btn-lg btn-block">
+                    <a href="{% url 'create_category' %}" class="text-white">Create new category</a>
+                </button>
+
+                <button type="button" class="btn btn-primary btn-lg btn-block">
+                    <a href="{% url 'search_category' %}" class="text-white">Search category</a>
+                </button>
+
+                <button type="button" class="btn btn-primary btn-lg btn-block">
+                    <a href="{% url 'display_categories' %}" class="text-white">Display categories</a>
+                </button>
+        {% endif %}
+        </div>
+        <!-- messages and categories end -->
+
+      </div>
+    </div>
+
+{% endblock %}

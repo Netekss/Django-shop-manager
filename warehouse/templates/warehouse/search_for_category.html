@@ -1,0 +1,36 @@
+{% extends 'warehouse/main.html' %}
+
+{% block title %}
+    Search category
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+            </div>
+            <div class="col-sm">
+                {% for message in messages %}
+                    <div class="alert alert-danger" style="text-align:center" role="alert">
+                      {{ message }}
+                    </div>
+                {% endfor %}
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div style="margin-bottom:2%">
+                        {{ search_form.title }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg btn-block" data-toggle="button" aria-pressed="false">
+                      Search
+                    </button>
+                </form>
+            </div>
+            <div class="col-sm">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

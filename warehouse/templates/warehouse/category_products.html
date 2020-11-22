@@ -1,0 +1,36 @@
+{% extends 'warehouse/main.html' %}
+
+{% block title %}
+    {{ category }}
+{% endblock %}
+
+{% block content %}
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+              <th scope="col">id</th>
+              <th scope="col">Product name</th>
+              <th scope="col">Category</th>
+              <th scope="col">Price</th>
+              <th scope="col">Quantity on stock</th>
+              <th scope="col">Options</th>
+            </tr>
+        </thead>
+        {% for product in products %}
+        <tbody>
+            <tr>
+            <th scope="row">{{ product.id }}</th>
+            <td><a href="{% url 'product_info' product.id %}">{{ product.title}}</a></td>
+            <td>{{ product.category}}</td>
+            <td>{{ product.price}}</td>
+            <td>{{ product.quantity_on_stock }}</td>
+            <td>
+                <a href="{% url 'edit_product' product.id %}">edit</a>
+            </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

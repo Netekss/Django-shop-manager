@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Menu</title>
+</head>
+<body>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+        </div>
+        <div class="col-sm" style="margin-top: 5%">
+          <h3 style="text-align:center">Django shop-manager</h3>
+            {% for message in messages %}
+                {% if 'success' in message.tags %}
+                <div class="alert alert-success" style="text-align: center" role="alert">
+                    {{ message }}
+                </div>
+                {% else %}
+                <div class="alert alert-danger" style="text-align: center" role="alert">
+                    {{ message }}
+                </div>
+                {% endif %}
+            {% endfor %}
+          <a href="{% url 'seller_index' %}" type="button" class="btn btn-outline-success btn-lg btn-block">Seller panel</a>
+          <a href="{% url 'warehouse_index' %}" type="button" class="btn btn-outline-success btn-lg btn-block">Warehouse panel</a>
+          <a href="{% url 'register' %}" type="button" class="btn btn-outline-success btn-lg btn-block">Create new employee</a>
+        </div>
+        <div class="col-sm">
+        </div>
+      </div>
+    </div>
+</body>
+</html>

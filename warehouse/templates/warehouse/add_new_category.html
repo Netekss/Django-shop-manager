@@ -1,0 +1,36 @@
+{% extends 'warehouse/main.html' %}
+
+{% block title %}
+    Create category
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+            </div>
+            <div class="col-sm">
+
+                {% for message in messages %}
+                    <div class="alert alert-danger" style="text-align:center" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        {{ form.title }}
+                    </div>
+                    <button type="submit" class="btn btn-success btn-lg btn-block">
+                        Create
+                    </button>
+                </form>
+            </div>
+            <div class="col-sm">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

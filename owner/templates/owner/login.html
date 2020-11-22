@@ -1,0 +1,48 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Login</title>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+            </div>
+            <!-- LOGIN -->
+            <div class="col-sm">
+                <form method="POST">
+                    <h1>Login</h1>
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Username</span>
+                        </div>
+                          <input type="text" name="username" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
+                        </div>
+                      <input type="password" name="password" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
+                    </div>
+
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+                </form>
+
+                {% for message in messages %}
+                    <div class="alert alert-dark alert-text" role="alert">
+                         {{message}}
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- LOGIN END-->
+            <div class="col-sm">
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+{% extends 'order/main.html' %}
+
+{% block title %}
+    Details {{ order.order_id }}
+{% endblock %}
+
+{% block content %}
+
+    <!-- messages -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+            </div>
+            <div class="col-sm">
+                    {% for message in messages %}
+                        {% if 'success' in message.tags %}
+                            <div class="alert alert-success" style="text-align:center" role="alert">
+                                {{ message }}
+                            </div>
+                        {% elif 'info' in message.tags %}
+                            <div class="alert alert-warning" style="text-align:center" role="alert">
+                                {{ message }}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-danger" style="text-align:center" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+            </div>
+            <div class="col-sm">
+            </div>
+        </div>
+    </div>
+    <!-- messages end -->
+
+    <!-- order table -->
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Product</th>
+              <th scope="col">Price</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total price</th>
+              <th scope="col">Options</th>
+            </tr>
+        </thead>
+        {% for product in order_items %}
+        <tbody>
+            <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ product.get_item_name }}</td>
+            <td>{{ product.get_item_price }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.get_total_item_price }}</td>
+            <td>
+                <a href="{% url 'increase_quantity' product.id order.id %}" class="fas fa-plus"></a>
+                <a href="{% url 'reduce_quantity' product.id order.id%}" class="fas fa-minus"></a>
+                <a href="{% url 'remove_from_order' product.id order.id %}" class="fas fa-trash"></a>
+            </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <!-- order table end -->
+
+    {% if order.close_status == False %}
+    <!-- order menu -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+            </div>
+            <div class="col-sm">
+                <div class="alert alert-dark" style="text-align:center" role="alert">
+                    Total price: {{ order.get_total_price }}
+                </div>
+                <div class="alert alert-dark" style="text-align:center" role="alert">
+                    {% if order.open_status == True %}
+                        <a href="{% url 'change_open_status' order.id %}">Change status to: waiting</a>
+                    {% else %}
+                        <a href="{% url 'change_open_status' order.id %}">Change status to: open</a>
+                    {% endif %}
+                </div>
+                <div class="alert alert-dark" style="text-align:center" role="alert">
+                    {% if order.paid == True %}
+                        <a href="{% url 'change_paid_status' order.id %}">Change paid status to: unpaid</a>
+                    {% else %}
+                        <a href="{% url 'change_paid_status' order.id %}">Change paid status to: paid</a>
+                    {% endif %}
+                </div>
+                <div class="alert alert-dark" style="text-align:center" role="alert">
+                    <a href="{% url 'seller_index' %}">back</a>
+                </div>
+            </div>
+            <div class="col-sm">
+            </div>
+        </div>
+    </div>
+    <!-- order menu end -->
+    {% endif %}
+
+{% endblock %}

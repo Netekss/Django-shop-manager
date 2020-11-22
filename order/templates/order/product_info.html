@@ -1,0 +1,18 @@
+{% extends 'order/main.html' %}
+
+{% block title %}
+    {{ product.title }}
+{% endblock %}
+
+{% block content %}
+
+    <div class="jumbotron" style="margin-left: 3%; margin-right: 3%">
+        <h1 class="display-4">{{ product.title }}</h1>
+        <p class="lead">{{ product.description|linebreaks }}</p>
+        <hr class="my-4">
+        <p>Price: {{ product.price }}</p>
+        <p>Quantity: {{ product.quantity_on_stock }}</p>
+        <a href="{% url 'add_to_order' product.id %}">Add do order <i class="fas fa-cart-plus"></i></a>
+    </div>
+
+{% endblock %}

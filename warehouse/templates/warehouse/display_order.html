@@ -1,0 +1,50 @@
+{% extends 'warehouse/main.html' %}
+
+{% block title %}
+    {{ order.order_id }}
+{% endblock %}
+
+{% block content %}
+
+    <!-- order table -->
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Product</th>
+              <th scope="col">Price</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total price</th>
+            </tr>
+        </thead>
+        {% for product in products %}
+        <tbody>
+            <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ product.get_item_name }}</td>
+            <td>{{ product.get_item_price }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.get_total_item_price }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <!-- order table end -->
+
+    <!-- order menu -->
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+            </div>
+            <div class="col-sm">
+            <button type="button" class="btn btn-warning btn-lg btn-block">
+                <a href="{% url 'change_close_status' order.id %}" class="text-white">Change status to closed</a>
+            </button>
+            </div>
+            <div class="col-sm">
+            </div>
+        </div>
+    </div>
+    <!-- order menu end -->
+
+{% endblock %}

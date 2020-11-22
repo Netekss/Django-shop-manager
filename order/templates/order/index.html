@@ -1,0 +1,194 @@
+{% extends 'order/main.html' %}
+
+{% block title %}
+    Seller menu
+{% endblock %}
+
+{% block content %}
+
+    <div style="margin-top: 3%">
+        <div class="container">
+            <div class="row">
+
+                <!-- open order menu -->
+                <div class="col-sm">
+                    {% if open_order|length > 0%}
+                        {% for order in open_order %}
+                            <div class="alert alert-primary" style="text-align: center" role="alert">
+                              <a>You have active order: {{ order.order_id }}</a>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-lg btn-block">
+                                <a href="{% url 'order_details' order.id %}" class="text-white">Order details</a>
+                            </button>
+
+                            <button type="button" class="btn btn-primary btn-lg btn-block">
+                                <a href="{% url 'change_send_status' order.id %}" class="text-white">Send to warehouse</a>
+                            </button>
+
+                            <button type="button" class="btn btn-danger btn-lg btn-block">
+                                <a href="{% url 'delete_order' order.id %}" class="text-white">Delete order</a>
+                            </button>
+                        {% endfor %}
+                    {% else %}
+                        <button type="button" class="btn btn-success btn-lg btn-block">
+                            <a href="{% url 'new_order' %}" class="text-white">Create new order</a>
+                        </button>
+                    {% endif %}
+                </div>
+                <!-- open order menu end -->
+
+                <!-- waiting orders -->
+                <div class="col-sm">
+                    <div class="alert alert-warning" style="text-align: center" role="alert">
+                       Waiting orders
+                    </div>
+
+                    {% if waiting_orders|length > 0 %}
+                        {% for order in waiting_orders %}
+                            <button type="button" class="btn btn-warning btn-lg btn-block">
+                                <a href="{% url 'order_details' order.id %}">{{ order }}</a>
+                            </button>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <!-- waiting orders end -->
+
+                <!-- messages and products -->
+                <div class="col-sm">
+                    <!-- messages -->
+                    {% if messages %}
+                        <div class="alert alert-dark" style="text-align: center" role="alert">
+                            Messages
+                        </div>
+                        {% for message in messages %}
+                            {% if 'success' in message.tags %}
+                            <div class="alert alert-success" style="text-align: center" role="alert">
+                              {{ message }}
+                            </div>
+                            {% else %}
+                            <div class="alert alert-danger" style="text-align: center" role="alert">
+                              {{ message }}
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                        <div class="alert alert-primary" style="text-align: center" role="alert">
+                            Categories
+                            <div style="font-size: 10px">
+                                click on category name to see products
+                            </div>
+                        </div>
+                        {% for category in categories %}
+                            <button type="button" class="btn btn-secondary btn-lg btn-block">
+                                <a href="{% url 'order_category_products' category.id %}" class="text-white">{{category}}</a>
+                            </button>
+                        {% endfor %}
+
+                        <!-- pagination -->
+                        <div class="d-flex justify-content-center" style="margin-top:3%">
+                            <nav aria-label="Page navigation example">
+                              <ul class="pagination">
+
+                                  <!-- previous page -->
+                                  {% if categories.has_previous %}
+                                    <li class="page-item">
+                                      <a class="page-link" href="?page={{ categories.previous_page_number }}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                      </a>
+                                    </li>
+                                  {% endif %}
+                                  <!-- previous page end -->
+
+                                  <!-- current page and pages -->
+                                  {% for i in categories.paginator.page_range %}
+                                    {% if categories.number == i %}
+                                        <li class="page-item active" aria-current="page">
+                                            <span class="page-link">
+                                                {{ i }}
+                                            </span>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                    {% endif %}
+                                  {% endfor %}
+                                  <!-- current page and pages end -->
+
+                                  <!-- next page -->
+                                  {% if categories.has_next %}
+                                    <li class="page-item">
+                                      <a class="page-link" href="?page={{ categories.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                      </a>
+                                    </li>
+                                  {% endif %}
+                                  <!-- next page end-->
+                              </ul>
+                            </nav>
+                        </div>
+                        <!-- pagination end -->
+
+                    <!-- messages end -->
+                    {% else %}
+                        <div class="alert alert-primary" style="text-align: center" role="alert">
+                            Categories
+                            <div style="font-size: 10px">
+                                click on category name to see products
+                            </div>
+                        </div>
+                        {% for category in categories %}
+                            <button type="button" class="btn btn-secondary btn-lg btn-block">
+                                <a href="{% url 'order_category_products' category.id %}" class="text-white">{{category}}</a>
+                            </button>
+                        {% endfor %}
+
+                        <!-- pagination -->
+                        <div class="d-flex justify-content-center" style="margin-top:3%">
+                            <nav aria-label="Page navigation example">
+                              <ul class="pagination">
+
+                                  <!-- previous page -->
+                                  {% if categories.has_previous %}
+                                    <li class="page-item">
+                                      <a class="page-link" href="?page={{ categories.previous_page_number }}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                      </a>
+                                    </li>
+                                  {% endif %}
+                                  <!-- previous page end -->
+
+                                  <!-- current page and pages -->
+                                  {% for i in categories.paginator.page_range %}
+                                    {% if categories.number == i %}
+                                        <li class="page-item active" aria-current="page">
+                                            <span class="page-link">
+                                                {{ i }}
+                                            </span>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                    {% endif %}
+                                  {% endfor %}
+                                  <!-- current page and pages end -->
+
+                                  <!-- next page -->
+                                  {% if categories.has_next %}
+                                    <li class="page-item">
+                                      <a class="page-link" href="?page={{ categories.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                      </a>
+                                    </li>
+                                  {% endif %}
+                                  <!-- next page end-->
+                              </ul>
+                            </nav>
+                        </div>
+                        <!-- pagination end -->
+
+                    {% endif %}
+                </div>
+                <!-- message and products end -->
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

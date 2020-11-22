@@ -1,0 +1,39 @@
+{% extends 'warehouse/main.html' %}
+
+{% block title %}
+    Categories
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+            </div>
+            <div class="col-sm">
+
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Category</th>
+                        <th scope="col">Products</th>
+                    </tr>
+                </thead>
+                {% for category in categories %}
+                <tbody>
+                    <tr>
+                        <td><a href="{% url 'category_products' category.id %}">{{ category.title}}</a></td>
+                        <th scope="row">{{ category.item_set.count }}</th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+            </div>
+            <div class="col-sm">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

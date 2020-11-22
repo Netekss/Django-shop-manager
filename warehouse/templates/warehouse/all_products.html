@@ -1,0 +1,80 @@
+{% extends 'warehouse/main.html' %}
+
+{% block title %}
+    Products
+{% endblock %}
+
+{% block content %}
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+              <th scope="col">id</th>
+              <th scope="col">Product name</th>
+              <th scope="col">Category</th>
+              <th scope="col">Price</th>
+              <th scope="col">Quantity on stock</th>
+              <th scope="col">Options</th>
+            </tr>
+        </thead>
+        {% for product in products %}
+        <tbody>
+            <tr>
+            <th scope="row">{{ product.id }}</th>
+            <td><a href="{% url 'product_info' product.id %}">{{ product.title}}</a></td>
+            <td><a href="{% url 'category_products' product.category.id %}">{{ product.category}}</a></td>
+            <td>{{ product.price}}</td>
+            <td>{{ product.quantity_on_stock }}</td>
+            <td>
+                <a href="{% url 'edit_product' product.id %}">edit</a>
+            </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- pagination -->
+    <div class="d-flex justify-content-center" style="margin-top:3%">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+
+              <!-- previous page -->
+              {% if products.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ products.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+              {% endif %}
+              <!-- previous page end -->
+
+              <!-- current page and pages -->
+              {% for i in products.paginator.page_range %}
+                {% if products.number == i %}
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">
+                            {{ i }}
+                        </span>
+                    </li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                {% endif %}
+              {% endfor %}
+              <!-- current page and pages end -->
+
+              <!-- next page -->
+              {% if products.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ products.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              {% endif %}
+              <!-- next page end-->
+
+          </ul>
+        </nav>
+    </div>
+    <!-- pagination end -->
+
+{% endblock %}
