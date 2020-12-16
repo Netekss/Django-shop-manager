@@ -2,12 +2,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User as DjangoUser
 from django import forms
 
-from .models import UserType
+from .models import User
 
 
 class CreateUserForm(UserCreationForm):
 
-    user_type = forms.ModelChoiceField(UserType.objects.all(), widget=forms.Select(attrs={"class": "form-control"}))
+    # user_type = forms.ModelChoiceField(UserType.objects.all(), widget=forms.Select(attrs={"class": "form-control"}))
+    user_type2 = forms.ChoiceField(choices=User.USER_TYPES, widget=forms.Select(attrs={"class": "form-control"}))
 
     class Meta:
         model = DjangoUser

@@ -13,27 +13,21 @@ from .forms import NewProductForm, SearchForProduct, NewCategoryForm, SearchForC
 
 def user_check(request):
     user = User.objects.get(name=request.user)
-    return str(user.user_type) == "warehouseman" or str(user.user_type) == "owner"
+    return user.user_type == User.WAREHOUSEMAN or user.user_type == User.OWNER
 
 
 @login_required(login_url='login')
 def index(request):
-    user = User.objects.get(name=request.user)
-    if str(user.user_type) == "warehouseman" or str(user.user_type) == "owner":
-        pass
-    elif str(user.user_type) == "seller":
+    # user = User.objects.get(name=request.user)
+    user = request.user.user
+    if user.user_type == User.SELLER:
         messages.error(request, 'access denied')
         return redirect('seller_index')
 
     # low quantity
-    products = Item.objects.all()
-    low_quantity = []
+    products = Item.objects.filter(quantity_on_stock__lt=5)
 
-    for product in products:
-        if product.quantity_on_stock < 5:
-            low_quantity.append(product)
-
-    paginator = Paginator(low_quantity, 2)
+    paginator = Paginator(products, 2)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
