@@ -7,6 +7,7 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField(default=0)
     order_id = models.CharField(max_length=11)
     item_order_id = models.CharField(max_length=100)
+    # TODO foreign key to Order
 
     def __str__(self):
         return f"{self.item.title}-{self.order_id}"
@@ -24,6 +25,7 @@ class OrderItem(models.Model):
 
 class Order(models.Model):
     order_id = models.CharField(max_length=11)
+    # TODO we can remove it
     items = models.ManyToManyField(OrderItem)
     creation_date = models.DateTimeField(auto_now_add=True)
     open_status = models.BooleanField(default=True)
